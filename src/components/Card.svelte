@@ -3,13 +3,18 @@
     import logo from '$lib/assets/i.webp'
     import {selected_place} from "$lib/stores/store"
 
-    export let name;
-    export let id = '0';
+    interface Props {
+        name: string;
+        id: string;
+    }
+
+    let { id, name }: Props = $props();
 
     let current = ''
 
-    function select_item(this) {
+    function select_item(this: any) {
         selected_place.set(this.id)
+        //TODO navigate to concrete
         goto("/place")
     }
 
@@ -19,7 +24,7 @@
 <div class='placeWrapper'>
     <img class='image' alt='place' src={logo}>
     <p class='title'>{name}</p>
-    <button id={id} class:selected={current === name} on:click={select_item}>
+    <button id={id} class:selected={current === name} onclick={select_item}>
         Выбрать
     </button>
 </div>

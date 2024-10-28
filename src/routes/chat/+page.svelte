@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { BASE_URL } from "$env/static/private";
     import {selected_place_data, socket_messages} from "$lib/stores/store"
 	import { onMount } from "svelte";
 
@@ -6,7 +7,7 @@
 
     function initWebSocket() {
         socket = new WebSocket(
-            "ws://192.168.1.78:8000/api/v1/ws"
+            `${BASE_URL} + /ws`
         )
 
         socket.onopen = (event) => {
@@ -34,8 +35,6 @@
         initWebSocket();
     });
 
-    $: console.log($socket_messages);
-    
 
 </script>
 
@@ -46,7 +45,7 @@
     {#each $socket_messages as message}
         <p>{message}</p>
     {/each}
-    <button on:click={send_message}>Click me</button>
+    <button onclick={send_message}>Click me</button>
 </div>
 
 <style>

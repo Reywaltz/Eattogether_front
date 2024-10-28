@@ -1,5 +1,8 @@
-export async function load({fetch, cookies, locals}) {
-    const r = await fetch("http://192.168.1.78:8000/api/v1/places", {
+import type {Place, PlaceList, PlaceListJSON} from "../types/place"
+import { BASE_URL } from "$env/static/private";
+
+export async function load({fetch, cookies}) {
+    const r = await fetch(BASE_URL + "/places", {
         credentials: "include",
         headers: {
             "Content-type": "application/json",
@@ -12,9 +15,12 @@ export async function load({fetch, cookies, locals}) {
         console.log(r.status);
         console.log(r.body);
     }
+    const result: PlaceListJSON = await r.json();
 
-    const items = await r.json();
+    const items: Place[] = result.items.map(place => ({
+        ...place,
+        id: place.id.toString()
+    }))
 
-    return items
-        
+    return { "items": items } as PlaceList
 }

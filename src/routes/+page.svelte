@@ -3,22 +3,26 @@
     
     import { all_places, selected_place_data } from "$lib/stores/store"
 	import { onMount } from "svelte";
+	import type { Place, PlaceList } from "../types/place";
 
-    export let data;
+    interface Props {
+        data: PlaceList;
+    }
+
+    let { data }: Props = $props();
 
     // TODO place store login in component
-    function setState(data) {
-        all_places.set(data.items) 
+    function setState(data: PlaceList) {
+        all_places.set(data.items);
     }
 
     onMount(async() => {
         setState(data)
     })
 
-
 </script>
 <main class='content'>
-    {#if data === null}
+    {#if data.items === null}
         LOADING
     {:else}
         {#each data.items as items}

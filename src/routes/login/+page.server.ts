@@ -1,3 +1,4 @@
+import { BASE_URL } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -9,7 +10,7 @@ export const actions = {
         
         // todo validation
         
-        const r = await fetch("http://192.168.1.78:8000/api/v1/login", {
+        const r = await fetch(BASE_URL + "/login", {
             body: JSON.stringify(
                 {"username": username, "password": password}
             ),
