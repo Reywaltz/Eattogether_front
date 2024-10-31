@@ -1,4 +1,4 @@
-import { BASE_URL } from '$env/static/private';
+import { API_URL } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -10,7 +10,7 @@ export const actions = {
         
         // todo validation
         
-        const r = await fetch(BASE_URL + "/login", {
+        const r = await fetch(API_URL + "/login", {
             body: JSON.stringify(
                 {"username": username, "password": password}
             ),

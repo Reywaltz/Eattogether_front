@@ -1,8 +1,8 @@
 import type {Place, PlaceList, PlaceListJSON} from "../types/place"
-import { BASE_URL } from "$env/static/private";
+import { API_URL } from "$env/static/private";
 
 export async function load({fetch, cookies}) {
-    const r = await fetch(BASE_URL + "/places", {
+    const r = await fetch(API_URL + "/places", {
         credentials: "include",
         headers: {
             "Content-type": "application/json",

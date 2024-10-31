@@ -3,13 +3,19 @@
 
 
 <div class='header'>
-    <h1>Header</h1>
+    <a class="header__text" href="/">Header</a>
     <form class="signOutForm" action="/logout" method="POST">
         <button class="signOutButton" type="submit">Sign Out</button>
     </form>
 </div>
 
 <style>
+    .header__text {
+        font-size: 32px;
+        text-decoration: none;
+        color: black;
+    }
+
     .header {
         display: flex;
         justify-content: center;

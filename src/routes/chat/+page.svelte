@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { BASE_URL } from "$env/static/private";
-    import {selected_place_data, socket_messages} from "$lib/stores/store"
+	import { env } from "$env/dynamic/public";
 	import { onMount } from "svelte";
+	import type { SocketMessage } from "../../types/message";
 
     let socket: WebSocket;
+    let socket_messages = $state<SocketMessage[]>([])
 
     function initWebSocket() {
         socket = new WebSocket(
-            `${BASE_URL} + /ws`
+            env.PUBLIC_API_URL + "/ws"
         )
 
         socket.onopen = (event) => {
@@ -16,11 +17,10 @@
 
         socket.onclose = (event) => {
             console.log("Closed");
-            
         }
 
         socket.onmessage = (event) => {
-            socket_messages.update((curentMessages) => [...curentMessages, event.data])
+            socket_messages.push(event.data)
         }
     }
 
@@ -38,11 +38,9 @@
 
 </script>
 
-<h1>{JSON.stringify($selected_place_data)}</h1>
-
     
 <div class="chat">
-    {#each $socket_messages as message}
+    {#each socket_messages as message}
         <p>{message}</p>
     {/each}
     <button onclick={send_message}>Click me</button>
