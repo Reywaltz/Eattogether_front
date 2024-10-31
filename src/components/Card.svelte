@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
     import logo from '$lib/assets/i.webp'
-    import {selected_place} from "$lib/stores/store"
+	import { selected_place } from '$lib/stores/store.svelte';
+
+    let isSelected = $state<boolean>(false)
 
     interface Props {
         name: string;
@@ -10,24 +11,32 @@
 
     let { id, name }: Props = $props();
 
-    let current = ''
+    function select_place(this) {
+        if (selected_place?.includes(this.id)) {
+            let index = selected_place.indexOf(this.id)
+            selected_place.splice(index)
+            isSelected = !isSelected
 
-    function select_item(this: any) {
-        selected_place.set(this.id)
-        //TODO navigate to concrete
-        goto("/place")
+        } else {
+            selected_place?.push(this.id)
+            isSelected = !isSelected
+        }
     }
 
 </script>
 
 
 <div class='placeWrapper'>
+    {#if isSelected}
+        <input type="checkbox" class=selectedCheckbox checked={isSelected}>
+    {/if}
     <img class='image' alt='place' src={logo}>
     <p class='title'>{name}</p>
-    <button id={id} class:selected={current === name} onclick={select_item}>
+    <button id={id} onclick={select_place}>
         Выбрать
     </button>
 </div>
+
 
 <style>
     .image {
@@ -55,8 +64,11 @@
         color: red;
     }
 
-    .selected {
+    .selectedCheckbox {
         color: purple;
+        position: absolute;
+        z-index: 1;
+        top: 107px;
     }
 
     button {

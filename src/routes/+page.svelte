@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { PUBLIC_API_URL } from "$env/static/public";
+	import { selected_place } from "$lib/stores/store.svelte";
 	import Card from "../components/Card.svelte";
     
-    import { all_places, selected_place_data } from "$lib/stores/store"
-	import { onMount } from "svelte";
-	import type { Place, PlaceList } from "../types/place";
+	import type { PlaceList } from "../types/place";
 
     interface Props {
         data: PlaceList;
@@ -11,14 +11,25 @@
 
     let { data }: Props = $props();
 
-    // TODO place store login in component
-    function setState(data: PlaceList) {
-        all_places.set(data.items);
-    }
+    const vote = (async () => {
+        const selected_ids: String[] | null = [...selected_place]
 
-    onMount(async() => {
-        setState(data)
+        const r = await fetch(PUBLIC_API_URL + "/places/vote", {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({
+                "ids": selected_ids
+            }),
+
+            headers: {"Content-Type": "application/json"}
+        })
+
+        const res = await r.text()
+        console.log(res);
+
     })
+
+    // $effect(() => console.log($inspect(selected_place)))
 
 </script>
 <main class='content'>
@@ -28,10 +39,14 @@
         {#each data.items as items}
             <Card id={items.id} name={items.name}/>
         {/each}
+        <button onclick={vote}>
+            Проголосовать
+        </button>
     {/if}
-
+    
 </main>
-<h1>{JSON.stringify($selected_place_data)}</h1>
+
+
 <style>
     .content {
         display: flex;
