@@ -37,7 +37,7 @@ export const actions = {
             domain: "",
         })
         
-        throw redirect(302, "/")
+        throw redirect(302, "/rooms")
         
     }
 }
