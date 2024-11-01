@@ -3,7 +3,7 @@
 
 
 <div class='header'>
-    <a class="header__text" href="/">Header</a>
+    <a class="header__text" href="/rooms">Header</a>
     <form class="signOutForm" action="/logout" method="POST">
         <button class="signOutButton" type="submit">Sign Out</button>
     </form>

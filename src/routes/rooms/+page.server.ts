@@ -1,8 +1,9 @@
-import type {Place, PlaceList, PlaceListJSON} from "../types/place"
 import { API_URL } from "$env/static/private";
+import type { RoomList } from "../../types/rooms";
+
 
 export async function load({fetch, cookies}) {
-    const r = await fetch(API_URL + "/places", {
+    const r = await fetch(API_URL + `/rooms`, {
         credentials: "include",
         headers: {
             "Content-type": "application/json",
@@ -15,12 +16,11 @@ export async function load({fetch, cookies}) {
         console.log(r.status);
         console.log(r.body);
     }
-    const result: PlaceListJSON = await r.json();
+    const result: RoomList = await r.json();
 
-    const items: Place[] = result.items.map(place => ({
-        ...place,
-        id: place.id.toString()
-    }))
+    console.log({"items": result.items});
+    
 
-    return { "items": items } as PlaceList
+    return { "items": result.items } as RoomList
+
 }

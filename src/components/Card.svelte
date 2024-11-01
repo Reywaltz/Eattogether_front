@@ -68,7 +68,7 @@
         color: purple;
         position: absolute;
         z-index: 1;
-        top: 107px;
+        top: 207px;
     }
 
     button {
