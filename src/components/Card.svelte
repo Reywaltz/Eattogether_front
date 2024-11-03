@@ -11,14 +11,15 @@
 
     let { id, name }: Props = $props();
 
-    function select_place(this) {
-        if (selected_place?.includes(this.id)) {
-            let index = selected_place.indexOf(this.id)
+    function select_place(event: Event) {
+        const target = event.target as HTMLButtonElement
+        if (selected_place?.includes(target.id)) {
+            let index = selected_place.indexOf(target.id)
             selected_place.splice(index)
             isSelected = !isSelected
 
         } else {
-            selected_place?.push(this.id)
+            selected_place?.push(target.id)
             isSelected = !isSelected
         }
     }
