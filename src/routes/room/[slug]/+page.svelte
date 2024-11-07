@@ -5,10 +5,12 @@
 	import type { Place } from "../../../types/place";
 	import type { Room } from "../../../types/rooms";
 	import { selected_place } from "$lib/stores/store.svelte";
+	import type { Vote } from "../../../types/vote";
+	import { invalidateAll } from "$app/navigation";
     interface Result {
         room: Room,
-        places: Place[]
-    
+        places: Place[],
+        votes: Vote[],
     }
     
     interface Props {
@@ -18,26 +20,32 @@
     let { data }: Props = $props()
     
     const vote = (async () => {
-        const selected_ids: String[] | null = [...selected_place]
+        const selected_ids: String[] | null = [...selected_place ?? []]
 
         const r = await fetch(PUBLIC_API_URL + "/places/vote", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({
-                "ids": selected_ids
+                "places_ids": selected_ids.map((value) => {return parseInt(value)}),
+                // TODO убрать обращение по индексу
+                "room_id": document.URL.split('/').slice(-1)[0]
             }),
 
             headers: {"Content-Type": "application/json"}
         })
 
-        const res = await r.text()
-        console.log(res);
-
+        invalidateAll()
+        selected_place?.splice(0, selected_place.length)
+        
     })
     
+    function isPlaceVoted(votes: Vote[], place_id: String) {
+        let item = votes.find(x => x.place_id === Number(place_id))?.place_id
+        console.log(item);
+        return item ? true : false 
+    }
 
 </script>
-
 
 <RoomCard 
     external_id={data.room.external_id}
@@ -46,9 +54,13 @@
 />
 <main class='content'>
     {#each data.places as places}
-        <Card id={places.id} name={places.name}></Card>
+        <Card
+            id={places.id}
+            name={places.name} 
+            voted={isPlaceVoted(data.votes, places.id)}
+        />
     {/each}
-    <button onclick={vote}>
+    <button disabled={selected_place?.length === 0} onclick={vote}>
         Проголосовать
     </button>
 </main>

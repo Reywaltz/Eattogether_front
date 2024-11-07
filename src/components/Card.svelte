@@ -2,14 +2,15 @@
     import logo from '$lib/assets/i.webp'
 	import { selected_place } from '$lib/stores/store.svelte';
 
-    let isSelected = $state<boolean>(false)
-
     interface Props {
-        name: string;
         id: string;
+        name: string;
+        voted: boolean;
     }
-
-    let { id, name }: Props = $props();
+    
+    let { id, name, voted}: Props = $props();
+    
+    let isSelected = $state<boolean>(voted)
 
     function select_place(event: Event) {
         const target = event.target as HTMLButtonElement
@@ -17,7 +18,6 @@
             let index = selected_place.indexOf(target.id)
             selected_place.splice(index)
             isSelected = !isSelected
-
         } else {
             selected_place?.push(target.id)
             isSelected = !isSelected
@@ -29,13 +29,17 @@
 
 <div class='placeWrapper'>
     {#if isSelected}
-        <input type="checkbox" class=selectedCheckbox checked={isSelected}>
+        <input type="checkbox" class=selectedCheckbox checked={true}>
     {/if}
     <img class='image' alt='place' src={logo}>
     <p class='title'>{name}</p>
-    <button id={id} onclick={select_place}>
-        Выбрать
-    </button>
+    {#if !voted}
+        <button id={id} onclick={select_place}>
+            Выбрать
+        </button>
+    {:else}
+        <p>Уже проголосовали</p>
+    {/if}   
 </div>
 
 
@@ -60,9 +64,10 @@
         max-width: 250px;
         margin: 10px;
     }
-
+    
     .placeWrapper:hover {
         color: red;
+        transition: 0.3s
     }
 
     .selectedCheckbox {
