@@ -1,6 +1,6 @@
 <script lang="ts">
     import logo from '$lib/assets/i.webp'
-	import { selected_place } from '$lib/stores/store.svelte';
+	import { selected_places } from '$lib/stores/store.svelte';
 
     interface Props {
         id: string;
@@ -14,21 +14,22 @@
 
     function select_place(event: Event) {
         const target = event.target as HTMLButtonElement
-        if (selected_place?.includes(target.id)) {
-            let index = selected_place.indexOf(target.id)
-            selected_place.splice(index)
+        
+        if (selected_places.value.includes(target.id)) {
+            let index = selected_places.value.indexOf(target.id)
+            
+            selected_places.value.splice(index)
             isSelected = !isSelected
         } else {
-            selected_place?.push(target.id)
+            selected_places.value.push(target.id)
             isSelected = !isSelected
         }
-    }
-
+    }    
 </script>
 
 
 <div class='placeWrapper'>
-    {#if isSelected}
+    {#if isSelected && !voted}
         <input type="checkbox" class=selectedCheckbox checked={true}>
     {/if}
     <img class='image' alt='place' src={logo}>

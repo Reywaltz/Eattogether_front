@@ -4,9 +4,9 @@
     import RoomCard from "../../../components/RoomCard.svelte";
 	import type { Place } from "../../../types/place";
 	import type { Room } from "../../../types/rooms";
-	import { selected_place } from "$lib/stores/store.svelte";
+	import { selected_places } from "$lib/stores/store.svelte";
 	import type { Vote } from "../../../types/vote";
-	import { invalidateAll } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
     interface Result {
         room: Room,
         places: Place[],
@@ -17,16 +17,15 @@
         data: Result
     }
 
+
     let { data }: Props = $props()
     
     const vote = (async () => {
-        const selected_ids: String[] | null = [...selected_place ?? []]
-
         const r = await fetch(PUBLIC_API_URL + "/places/vote", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({
-                "places_ids": selected_ids.map((value) => {return parseInt(value)}),
+                "places_ids": selected_places.value.map((value) => {return parseInt(value)}),
                 // TODO убрать обращение по индексу
                 "room_id": document.URL.split('/').slice(-1)[0]
             }),
@@ -34,16 +33,18 @@
             headers: {"Content-Type": "application/json"}
         })
 
+        selected_places.value.splice(0, selected_places.value.length)
         invalidateAll()
-        selected_place?.splice(0, selected_place.length)
         
     })
     
     function isPlaceVoted(votes: Vote[], place_id: String) {
         let item = votes.find(x => x.place_id === Number(place_id))?.place_id
-        console.log(item);
         return item ? true : false 
     }
+
+    $effect(() => console.log($inspect(selected_places.value)));
+    $effect(() => console.log(selected_places.value.length));
 
 </script>
 
@@ -60,9 +61,13 @@
             voted={isPlaceVoted(data.votes, places.id)}
         />
     {/each}
-    <button disabled={selected_place?.length === 0} onclick={vote}>
+    <button disabled={selected_places.value.length === 0} onclick={vote}>
         Проголосовать
     </button>
+    <button>
+        Следующий этап
+    </button>
+
 </main>
 
 <style>
