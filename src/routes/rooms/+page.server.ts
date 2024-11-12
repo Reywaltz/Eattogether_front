@@ -18,9 +18,6 @@ export async function load({fetch, cookies}) {
     }
     const result: RoomList = await r.json();
 
-    console.log({"items": result.items});
-    
-
     return { "items": result.items } as RoomList
 
 }

@@ -64,7 +64,7 @@
     <button disabled={selected_places.value.length === 0} onclick={vote}>
         Проголосовать
     </button>
-    <button>
+    <button onclick={goto(`${window.location.pathname}/date`)}>
         Следующий этап
     </button>
 
