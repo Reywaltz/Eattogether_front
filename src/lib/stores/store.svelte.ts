@@ -1,1 +1,1 @@
-export const selected_place = $state<string[] | null>([])
+export const selected_places = $state<{"value": string[]}>({value: []})
