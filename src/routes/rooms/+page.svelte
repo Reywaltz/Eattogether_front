@@ -8,7 +8,7 @@
 {#if data.items === null}
         LOADING
     {:else}
-    <div class="rooms_container"> 
+    <div class="flex bg-red-500"> 
         {#each data.items as items}
             <RoomCard 
             external_id={items.external_id}
@@ -19,10 +19,5 @@
     </div>
 {/if}
 
-
 <style>
-    .rooms_container {
-        display: flex;
-        background-color: red;
-    }
 </style>

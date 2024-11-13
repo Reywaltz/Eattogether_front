@@ -2,30 +2,14 @@
 </script>
 
 
-<div class='header'>
-    <a class="header__text" href="/rooms">Header</a>
-    <form class="signOutForm" action="/logout" method="POST">
-        <button class="signOutButton" type="submit">Sign Out</button>
+<div class="flex justify-between items-center bg-red-500 p-3 mb-1 gap-3">
+    <nav class="flex items-center gap-2">
+        <a class="text-3xl" href="/rooms">Главная</a>
+    </nav>
+    <form action="/logout" method="POST">
+        <button class="text-3xl" type="submit">Выйти</button>
     </form>
 </div>
 
 <style>
-    .header__text {
-        font-size: 32px;
-        text-decoration: none;
-        color: black;
-    }
-
-    .header {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 5px;
-        background-color: brown;
-    }
-
-    .signOutForm {
-        display: flex;
-        justify-content: center;
-    }
-
 </style>

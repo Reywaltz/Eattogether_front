@@ -28,14 +28,14 @@
 </script>
 
 
-<div class='placeWrapper'>
+<div class='flex flex-col items-center max-h-fit max-w-64 m-3 hover:bg-red-500 transion duration-300'>
     {#if isSelected && !voted}
-        <input type="checkbox" class=selectedCheckbox checked={true}>
+        <input type="checkbox" class="checked:accent-purple-500 absolute z-10" checked={true}>
     {/if}
-    <img class='image' alt='place' src={logo}>
-    <p class='title'>{name}</p>
+    <img class='m-w-12 pt-5 rounded-xl' alt='place' src={logo}>
+    <p class='text-center text-4xl m-0'>{name}</p>
     {#if !voted}
-        <button id={id} onclick={select_place}>
+        <button class="w-full bg-white" id={id} onclick={select_place}>
             Выбрать
         </button>
     {:else}
@@ -45,41 +45,4 @@
 
 
 <style>
-    .image {
-        max-width: 250px;
-        padding-top: 20px;
-        border-radius: 12px;
-    }
-
-    .title {
-        text-align: center;
-        font-size: 36px;
-        margin: 0px;
-    }
-
-    .placeWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-height: fit-content;
-        max-width: 250px;
-        margin: 10px;
-    }
-    
-    .placeWrapper:hover {
-        color: red;
-        transition: 0.3s
-    }
-
-    .selectedCheckbox {
-        color: purple;
-        position: absolute;
-        z-index: 1;
-        top: 207px;
-    }
-
-    button {
-        width: 100%;
-    }
-
 </style>

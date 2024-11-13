@@ -53,7 +53,7 @@
     name={data.room.name}
     created_at={data.room.created_at}
 />
-<main class='content'>
+<main class='flex flex-wrap justify-start gap-3 m-8 bg-green-500'>
     {#each data.places as places}
         <Card
             id={places.id}
@@ -61,22 +61,13 @@
             voted={isPlaceVoted(data.votes, places.id)}
         />
     {/each}
-    <button disabled={selected_places.value.length === 0} onclick={vote}>
+    <button class="bg-white disabled:bg-slate-300" disabled={selected_places.value.length === 0} onclick={vote}>
         Проголосовать
     </button>
-    <button onclick={goto(`${window.location.pathname}/date`)}>
+    <button class="bg-white"onclick={goto(`${window.location.pathname}/date`)}>
         Следующий этап
     </button>
-
 </main>
 
 <style>
-    .content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 30px;
-        margin: 30px;
-        background-color: rgb(20, 93, 63);
-    }
 </style>

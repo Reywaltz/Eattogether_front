@@ -1,5 +1,6 @@
 <script>
 	// TODO FIX TYPES AFTER MIGRATING TO RUNES
+	import "../app.css"
 	import Header from "../components/Header.svelte";
 	let { children } = $props();
 
