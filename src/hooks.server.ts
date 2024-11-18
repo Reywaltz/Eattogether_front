@@ -16,6 +16,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 function authenticateUser(event: RequestEvent) {
   const cookies = event.cookies.get("X-Auth-Token")
+  
   if (!cookies) {
     return null    
   }

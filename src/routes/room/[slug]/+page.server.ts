@@ -3,7 +3,7 @@ import type { PlaceList } from "../../../types/place";
 import type { Room } from "../../../types/rooms";
 import type { VotedPlaces } from "../../../types/vote";
 
-export async function load({fetch, cookies, params}) {
+export async function load({fetch, cookies, params, locals}) {
     const [roomInfo, placesInfo, voted_places] = await Promise.all([
         fetch(API_URL + `/rooms/${params.slug}`, {
             credentials: "include",
@@ -35,6 +35,6 @@ export async function load({fetch, cookies, params}) {
         const places: PlaceList = await placesInfo.json();
         const votes: VotedPlaces = await voted_places.json();
 
-        return { "room": room, "places": places.items, "votes": votes.items }
+        return { "room": room, "places": places.items, "votes": votes.items, "user": locals.user }
     } 
 }
