@@ -18,3 +18,12 @@ export interface PlaceList {
 export interface PlaceListJSON {
     items: PlaceJSON[];
 }
+
+export interface PlaceVote {
+    name: string;
+    count: number;
+}
+
+export interface PlaceVotes {
+    items: PlaceVote[]
+}

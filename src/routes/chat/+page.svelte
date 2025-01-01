@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { env } from "$env/dynamic/public";
+	import {  onMount } from "svelte";
 	import type { SocketMessage } from "../../types/message";
 
-    let socket: WebSocket;
+    let socket: WebSocket
     let socket_messages = $state<SocketMessage[]>([])
-
-    $effect(() => {
-        socket = new WebSocket(
-            env.PUBLIC_API_URL + "/ws"
-        )
     
+    onMount(() => {    
+        socket = new WebSocket(env.PUBLIC_API_URL + "/ws");
         socket.onopen = (event) => {
             console.log("Conneted");            
         }
@@ -20,6 +18,10 @@
     
         socket.onmessage = (event) => {
             socket_messages.push(event.data)
+        }
+
+        socket.onclose = (event) => {
+            socket.close()
         }
     })
 

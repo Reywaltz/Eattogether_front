@@ -1,6 +1,7 @@
 <script lang="ts">
     import logo from '$lib/assets/i.webp'
 	import { selected_places } from '$lib/stores/store.svelte';
+	import { faker } from '@faker-js/faker';
 	import { Button, Datepicker } from 'flowbite-svelte';
 
     interface Props {
